@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>计算样式（优先级的计算）最终样式表</title>
+<style type="text/css">
+   .myclass{
+	   color:red;
+	   background-color:blue;
+	}
+	#mydiv{
+	    color:blue;
+		background-color:red;
+	}
+</style>
+
+<script type="text/javascript">
+    function compute( ele,attr){
+	    var eleobj=document.getElementById( ele );
+		var computedStyle;
+		if( eleobj.crruentStyle ){
+		    computedStyle=eleobj.currentStyle;
+		}else{
+		    computedStyle=document.defaultView.getComputedStyle( eleobj,null );
+		}
+		return computedStyle[attr];
+	}
+</script>
+
+
+</head>
+
+<body>
+   
+   <div class="myclass" id="mydiv">hello</div>
+   
+   <button onclick="alert(compute('mydiv','color'))" value="显示最终样式" />
+   
+</body>
+</html>

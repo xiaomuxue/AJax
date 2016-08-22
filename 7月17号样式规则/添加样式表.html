@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加样式表</title>
+</head>
+
+<body>
+   <script type="text/javascript">
+        function addSheet( cssURL ){
+		    if( document.creatStyleSheet ){      //IE的添加方式
+			   document.creatStyleSheet( cssURL );
+			}else{       //w3c的添加方式
+			   var ss=document.createElement("link");
+			   ss.type="text/css";
+			   ss.rel="stylesheet";
+			   ss.href=cssURL;
+			   document.getElementsByTagName("head")[0].appendChild(ss);    //表示添加在head的前面
+			}
+		}
+		
+		addSheet( "main.css" );
+		
+   </script> 
+   
+   <p class="myclass1">abc</p>
+   
+</body>
+</html>

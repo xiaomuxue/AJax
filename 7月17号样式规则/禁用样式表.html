@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>禁用样式表</title>
+
+<style type="text/css">
+   .myclass2{color:red;}
+</style>
+
+<link rel="stylesheet" href="main.css"/>
+
+
+</head>
+
+<body>
+   <p class="myclass1 myclass2">您好！</p>
+   
+   <script type="text/javascript">
+       document.styleSheets[0].disabled=true;
+	   document.styleSheets[1].disabled=true;
+   </script>
+</body>
+</html>

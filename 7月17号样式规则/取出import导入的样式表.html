@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>取出import导入的样式表</title>
+<style type="text/css">
+   @import "a.css";
+</style>
+
+<script type="text/javascript">
+    function show(){
+	   /*var importrules=document.styleSheets[0].imports[0].rules;     //IE里面的写法
+	   alert( document.styleSheets[0].imports.length );
+	   
+	   var importrules=document.styleSheets[0].cssRules[0].styleSheet.cssRules;
+	   alert( document.styleSheets[0].cssRules.length );*/
+	   
+	   
+	   var importrules;
+	   if( document.styleSheets[0].cssRules ){
+	       importrules=document.styleSheets[0].cssRules[0].styleSheet.cssRules;
+	   }else{
+	       importrules=document.styleSheets[0].styleSheets[0].imports[0].rules;    //IE支持@import样式表，所以可以直接取。
+	   }
+	  // alert( importrules.length );
+	  
+	  
+	  //求出所有的样式表的数量
+	  var stylesheetcount=0;
+	  stylesheetcount+=document.styleSheets.length;
+	  if( document.styleSheets[0].rules ){
+	      //IE的做法
+		  //2
+		  for( var i=0;i<document.styleSheets.length;i++){
+		      stylesheetcount+= document.stylesSheet[i].imports.length;
+		  }
+	  }else{
+	      for( var i=0;i<document.styleSheets.length;i++){
+		     var cssRules=document.styleSheets[i].cssRules;
+			 for( var j=0;j<cssRules.length;j++){
+			    var rule=cssRules[j];
+				if(rule.type==3){
+				   stylesheetcount++;
+				}
+			}
+		  }
+	  }
+	  alert( "样式表的数量："+stylesheetcount );
+	}
+</script>
+</head>
+
+<body onLoad="show()">
+</body>
+</html>

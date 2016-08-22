@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>移除样式表</title>
+<style type="text/css">
+   .myclass2{color:red;}
+</style>
+
+<link rel="stylesheet" href="main.css"/>
+
+<script type="text/javascript">
+    function removeSheet( index ){
+	   var sheet=document.styleSheets[index];
+	   //                  ie                    w3c
+	   //  container指的是  <style>
+	   var container=sheet.owningElement||sheet.ownerNode;
+	   if( container ){
+	      container.parentNode.removeChild( container );
+	   }
+	}
+	
+	removeSheet(1);
+</script>
+
+</head>
+
+<body onload="removeSheet()">
+    <p class="myclass1 myclass2">生活会越来越美好！</p>
+</body>
+</html>

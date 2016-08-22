@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>添加样式规则</title>
+ <script type="text/javascript">
+       function addNewRule( selector,ruleText ){
+	       var cssObj;
+		   //添加规则必须保证文档中至少一个样式表，没有就要创建
+		   if( document.styleSheets.length>0 ){
+		       cssObj=document.styleSheets[0];
+		   }else{
+		       if(document.crreateStyle){
+			       cssObj=document.createStyleSheet();     //相当于在本文档中创建了一个<style>
+			   }else{
+			       //W3C
+				   var ss=document.createElement("style");
+				   ss.type="text/css";
+				   document.getElementsByTagName("head")[0].appendChild( ss );
+				   cssObj=document.styleSheets[0];
+			   }
+		   }
+		   if( cssObj.addRule ){
+		       cssObj.addRule( selector,ruleText );
+		   }else{
+		       cssObj.insertRule( selector+'('+ruleText+')',0);
+		   }
+	   }
+	   
+	   
+	   function delRule(){
+	       var styleObj=document.styleSheets[0];
+		   if( styleObj.cssRules ){
+		       styleObj.deleteRule( styleObj.cssRules.length-1 );
+		   }else{
+		       styleObj.removeRule( styleObj.cssRules.length-1 );
+		   }
+	   }
+	   
+	   addNewRule(".a","color:red");
+   </script>
+</head>
+
+<body>
+    
+    <p class="a">hello</p>
+    
+</body>
+</html>

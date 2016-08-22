@@ -1,0 +1,72 @@
+ajax:
+     无缝刷新页面。
+
+
+05年，Garret发表论文：  ajax: A new Approach to web applications.
+
+
+ajax是由javascript+html+css + xml + xhr对象  构成。
+
+1、功能（优点）： 能向服务器发送请求获取数据而须刷新页面。
+
+2、ajax的核心：XMLHttpRequest对象。在xhr对象出现之前，要完成ajax形式的通信，必须借助 hack技术完成，隐藏框架（iframe）来实现
+。
+
+
+3、历史：
+
+    IE5浏览器是第一个引入xhr对象的浏览器，在IE7+的版本，xhr对象的创建通过MSXML库中的一个Active对象来创建，在IE5中有三种xhr
+对象： MSXML2.XMLHttp.6.0、  MSXML2.XMLHttp.3.0、  MSXML.XMLHttp        
+
+ IE8+以上的浏览器不需要创建IE5里面的xhr对象。
+
+4、创建跨浏览器的 http对象
+
+        //ie7+, ff, chrome, safari等
+			if(typeof XMLHttpRequest != "undefined"){
+			     return new XMLHttpRequest();
+			}else if(typeof ActiveXObject != "undefined"){ //IE早期版本（这一段是为了兼容IE8以下的低版本浏览器）
+			    //查看调用函数中是否存在一个activeXString的变量。
+				if(typeof arguments.calle.activeXString != "string"){    //表示多存了版本字符串
+				   var versions=["MSXML2.XMLHttp.6.0","MSXML2.XMLHttp.3.0","MSXML2.XMLHttp"];
+				   for(var i=0,len=versions.length;i<len;i++){
+				       try{
+					       var xhr=new ActiveXObject(versions[i]);
+						   arguments.callee.activeXString=versions[i];
+						   return xhr;
+					   }catch(ex){
+					       //skip  不处理
+					   }
+				   }
+				}
+				return new ActiveXObject(arguments.callee.activeXString);
+			}else{
+			    throw new Error("No XHR object avaliable.");
+			}
+
+
+5.http对象中的属性和方法
+     属性：
+        onreadystatechange = 回调函数 ： 服务器与客户端的状态 ：  0、1、2、3、4
+        readyState:   0、1、2、3、4
+        responseBody:   服务器对客户端的响应
+        responseText:   普通文本
+        responseXML:    xml文本
+        statusText:        状态文本          0k   /    internal  error
+        status:            状态码            1xx  /  2xx   /3xx  /4xx  /5xx    (必须懂)     作业：查找所有的HTTP响应状态码。
+
+
+     方法：
+         abort()
+         getAllResponseHeaders();      //获取所有的响应头文件
+         open（ method，url, [,同步或异步的标识]，[username,password]）； 建立客户端与服务器的联接，后面两个值一般不取。
+                                ajax都是用的异步。
+         优化：首先尽量使用本机缓存的，若是清除了，再去请求服务器。
+         联调：客户端连接调试。
+
+
+
+
+
+    post:send();里面必须编码，因为怕有中文
+

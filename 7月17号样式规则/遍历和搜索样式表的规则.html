@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>遍历和搜索样式表的规则</title>
+<style type="text/css">
+    .myclass2{color:red;}
+</style>
+<link rel="stylesheet" href="main.css"/>
+
+<script type="text/javascript">
+      function getSheet(){
+	      var styleCollection=[];
+		  var indexedStylesheets=0;
+		  for(var i=0;i<document.styleSheets.length;i++){
+		      styleCollection[ styleCollection.length ]=document.styleSheets[i];
+		  }
+		  
+		  while( indexedStylesheets<styleCollection.length ){
+		      for( var i=indexedStylesheets;i<styleCollection.length;i++ ){
+			      indexedStylesheets+=1;
+				  if(styleCollection[i].cssRulex[x].type==3){
+				       //是3的话，表明是   @import "a.css"
+						  styleCollection[styleCollection.length]=styleCollection[i].cssRules[i].styleSheet;
+					  }else{
+				    //ie
+					for( var x=0;x<styleCollection[i].imports.length;x++){
+					    styleCollection[styleCollection.length]=styleCollection[i].imports[x];
+					}
+				}
+			}
+	   }
+	   return styleCollection;
+	}
+	
+	
+	//searchString:要查找的选择器名
+	//exact :true 精确查找      false:模糊查找
+	function searchRule( searchString,exact ){
+	    var stylesheetlist=getSheets();     //获取所有的样式表
+		var rulelist=[];     //匹配的规则
+		
+		for( var i=0;i<stylesheetlist.length;i++){     //循环样式表
+		   //取出每个样式表中的规则集合
+		   //rules：ie             cssRules:w3c
+		   var ruleSet=stylesheetlist[i].rules||stylesheetlist[i].cssRules;
+		   for( var x=0;x<ruleSet.length;x++){
+		        //如果是精确查找，则取出每个rule的selectorText选择器名，    ==
+				if( exact && ruleSet[x].selectorText==searchString ){
+				    rulelist.push( ruleSet[x] );
+				}else if( !exact && (ruleSet[x].selectorText.indexOf(searchString)>-1 )){
+				    rulelist.push( ruleSet[x] );
+				}
+		   }
+		}
+		return rulelist;
+	}
+
+</script>
+</head>
+
+<body>
+
+<div class="myclass1 myclass2">hello</div>
+
+</body>
+</html>

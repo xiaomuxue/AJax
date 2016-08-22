@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>遍历所有的样式表</title>
+
+<style type="text/css">
+@import "a.css";
+
+</style>
+<style type="text/css">
+@import "main.css";
+@import "shared.css";
+
+</style>
+
+
+<script type="text/javascript">
+    //取得所有的样式表： document.styleSheets只能取得 <link><style>所标识的样式表
+	//getSheets()能取得所有的样式表   (包括import)
+	function getSheets(){
+	   var styleCollection=[];     //样式表集合
+	   var indexedStylesheets=0;
+	   //先加   <link><style>所标识的样式表
+	   for( var i=0;i<document.styleSheets.length;i++){
+		   //styleCollection[0]=document.styleSheets[0]    0个
+		   //styleCollection[1]=document.styleSheets[1]    1个
+	       styleCollection[ styleCollection.length ]=document.styleSheets[i];
+	   }
+	   //循环  styleCollection中的每一个样式，取 import部分
+	   while( indexedStylesheets<styleCollection.length){
+	        for( var i=indexedStylesheets;i<styleCollection.length;i++){
+			    indexedStylesheets+=1;
+				if( styleCollection[i].cssRules ){
+					//w3c
+				   for( var x=0;x<styleCollection[i].cssRules.length;x++){
+				      if( styleCollection[i].cssRules[x].type==3){
+					      //是3的话，表明是   @import "a.css"
+						  styleCollection[styleCollection.length]=styleCollection[i].cssRules[i].styleSheet;
+					  }
+				   }
+				}else{
+				    //ie
+					for( var x=0;x<styleCollection[i].imports.length;x++){
+					    styleCollection[styleCollection.length]=styleCollection[i].imports[x];
+					}
+				}
+			}
+	   }
+	   return styleCollection;
+	}
+	
+	
+	function show(){
+	    var stylesheetlist=getSheets();
+		var resultContext="";
+		for( var i=0;i<stylesheetlist.length;i++){
+		     resultContext+="<p> stylesheet href地址:"+stylesheetlist[i].href+"</p>";
+		}
+		document.body.innerHTML=resultContext;
+	}
+	
+</script>
+</head>
+
+<body onLoad="show()">
+</body>
+</html>
